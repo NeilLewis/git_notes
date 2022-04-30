@@ -44,11 +44,11 @@ Git 与常用的版本控制工具 CVS, Subversion 等不同，它采用了分�
 
 ### 2.3 git 命令
 
-初始化本地仓库，如已进入目录 repo，则使用如下命令
+初始化本地仓库(将已有项目纳入git管理)，如已进入目录 repo，则使用如下命令
 
 `git ini`
 
-如初始化仓库 repo，则使用如下命令
+如初始化仓库 repo(项目repo还不存在)，则使用如下命令
 
 `git init repo`
 
@@ -56,7 +56,7 @@ Git 与常用的版本控制工具 CVS, Subversion 等不同，它采用了分�
 
 `git config -e`
 
-修改git全局配置
+修改git全局配置(系统--system,本仓库--local)
 
 `git config -e --global`
 
@@ -84,11 +84,11 @@ Git 与常用的版本控制工具 CVS, Subversion 等不同，它采用了分�
 
 回退版本
 
-`git reset`
+`git reset --hard`
 
 移动或者重命令工作区文件
 
-`git mv`
+`git mv readme readme.md`
 
 文件修改过之后，将文件提交到本地仓库 
 
@@ -110,13 +110,17 @@ Git 与常用的版本控制工具 CVS, Subversion 等不同，它采用了分�
 
 `git log --oneline`
 
+查看最新两次
+
+`git log -n2`
+
 图形界面查看
 
 `gitk`
 
 查看拓扑图
 
-`git log --graph`
+`git log --all --graph`
 
 `git log --oneline --decorate --graph`
 
@@ -184,6 +188,10 @@ git默认的是最新的在最上面,可以使用--reverse指定方向
 
 `git branch -d test`
 
+使用-D强制删除
+
+`git branch -D test`
+
 查看所有的标签
 
 `git tag`
@@ -209,6 +217,81 @@ git连接到远程仓库,使用rsa生成秘钥
 `ssh-keygen -t rsa -C "youremail@example.com"`
 
 成功的话会在~/下生成.ssh文件夹,进去之后复制id.rsa.pub,复制里面的内容粘贴到git账户配置添加key信息的地方
+
+指定算法
+
+`ssh-keygen -t ed25519 -C "your_email@example.com"`
+
+`ssh-keygen -t rsa -b 4096 -C "your_email@example.com"`
+
+进入.git目录查看git对象HEAD
+
+`cat HEAD`
+
+进入HEAD指向的目录下
+
+`cd refs/heads`
+
+`cat master`
+
+查看文件属性
+
+`git cat-file -t 40e100d231fbfe7934afb22fd91e9647831a4565 `
+
+查看文件内容
+
+`git cat-file -p 40e100d231fbfe7934afb22fd91e9647831a4565 `
+
+.git目录下核心的目录refs/,refs下存储的是引用, objects/objects下存储的是对象
+
+commit /tree/blob三个对象之间的关系
+
+`一个commit对应一个tree(所有文件的快照),tree里面包含项目的视图,blob和文件名无关,只要内容一样在git里面都是同一个blob `
+
+查看objects下文件
+
+`find .git/objects/ -type f`
+
+切换到上一个commit(上两个HEAD~2)
+
+`git checkout HEAD~`
+
+通常情况下checkout与分支名称交互,如果指定了commit的哈希值XYZ,就会进入detached HEAD状态(也就是HEAD指针指向XYZ,但没有指向具体的分支),如果在detached HEAD状态状态下做的变更不重要,那么git会自动清理掉,如果很重要,则需要新建一个分支与之关联上
+
+`detached HEAD`会在哪些情况出现
+
+有一些情况下，`detached HEAD`状态很常见：
+
+- 子模块确实在特定提交而不是分支中检出
+- `Rebase`通过在运行时创建临时`detached HEAD`状态来工作
+
+`detached HEAD`不应出现的地方
+
+另一种情况：如果要及时回顾一下您项目的旧版本呢？例如，在bug的上下文中，您希望了解旧版本中的工作原理,这种情况下可以创建一个临时分支,并在完成之后将其删除
+
+HEAD指向分支最新一个commit
+
+`git diff HEAD HEAD^1 `等价于`git diff HEAD HEAD^`等价于`git diff HEAD HEAD~`等价于`git diff HEAD HEAD~1`
+
+`git diff HEAD HEAD^2 `等价于`git diff HEAD HEAD^^`等价于`git diff HEAD HEAD~2`
+
+## 3 git 使用特殊场景
+
+修改最新一次commit的message
+
+`git commit --amend`
+
+修改老旧的commit的message 
+
+`git rebase -i xxx`
+
+
+
+
+
+
+
+
 
 
 
