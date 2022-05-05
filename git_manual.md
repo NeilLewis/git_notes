@@ -281,19 +281,88 @@ HEAD指向分支最新一个commit
 
 `git commit --amend`
 
-修改老旧的commit的message 
+修改老旧的commit的message ,比如需要修改commit [xxx]的message,则需要基于其上一个commit [yyy]进行message修改, 策略为r(reword修改message)
 
-`git rebase -i xxx`
+`git rebase -i yyy`
+
+同样适用上述的rebase可以合并多个commit的message, 需要设置策略是 s(squash 合并commit),对于不连续的commit, 则需要把合并的commit的行放入到一起
+
+暂存区和head内容比较
+
+`git diff --cached`
+
+比较工作区与暂存区的差别
+
+`git diff`
+
+对比具体的文件的差别
+
+`git diff -- readme.md`
+
+如何将暂存区的所有内容和HEAD中变为一样
+
+`git reset HEAD`
+
+只将暂存区的部分文件恢复和HEAD中一样
+
+`git reset HEAD -- style/style.css`
+
+`git reset HEAD -- style/style.css readme.md`
+
+强制将暂存区和工作区的头指针都指向某个commit [xxx], xxx之后的commit会被舍弃
+
+`git reset --hard xxx` 
+
+比较两个分支之间的差异,默认是全部文件
+
+`git diff temp master`
+
+比较指定的文件的差异
+
+`git diff temp master -- index.html`
+
+如果temp好master的哈希值分别为yyy/zzz,则上述命令同样可以写成以下命令
+
+`git diff yyy zzz -- index.html`
+
+临时遇到紧急任务加塞,可以把当前的内容暂时放到堆栈
+
+`git stash`
+
+查看堆栈内容
+
+`git stash list`
+
+解决紧急任务之后取出
+
+`git stash apply`把之前存到堆栈里面的内容取出来到工作区,同时堆栈里面的内容也继续存在
+
+而使用pop之后堆栈里面的内容会丢弃
+
+`git stash pop`
+
+通过.gitignore添加不需要添加到git控制的文件列表
 
 
 
+## 4 git备份
 
 
 
+### 4.1 使用的传输协议一览
 
+![git常用传输协议](E:\share\workspace\git\notes\git常用传输协议.png)
 
+### 4.2 哑协议和智能协议对比
 
+* 直观区别：哑协议传输进度不可见，智能协议传输可见
+* 传输速度：智能协议比哑协议传输速度快
 
+### 4.3 本地备份
+
+哑协议备份
+
+`git clone --bare ../notes/.git ya.git`
 
 
 
