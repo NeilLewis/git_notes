@@ -364,5 +364,71 @@ HEAD指向分支最新一个commit
 
 `git clone --bare ../notes/.git ya.git`
 
+智能协议备份
+
+`git clone --bare file:///e/share/workspace/git/notes/.git zhineng.git`
+
+### 4.4添加远程仓库
+
+查看远程库信息
+
+`git remote -v`
+
+添加远程库
+
+`git remote add zhineng file:///e/share/workspace/git/backup/zhineng.git `
+
+推送本地分支的改动到远程库
+
+`git push zhineng`
+
+`git push --set-upstream zhineng aaa`
+
+fast-forward要基于远程库做更新,才能推送到远程, 否则要通过fetch获取远程库内容,然后和本地的分支进行merge,或者使用pull
+
+`git remote add github `
+
+## 5. git分支管理
+
+读取远程分支到本地并切换到分支
+
+`git checkout -b feature/f1 origin/feature/f1`
+
+克隆远程仓库到本地并重新命名
+
+`git clone git@github.com:NeilLewis/git_notes.git git_notes_02`
+
+* 不同的人对同一分支的不同文件做更新的时候, A修改文件1并提交了并push,而B修改了文件2提交的时候就需要先fetch,然后合并再提交并push
+
+* 不同的人对同一分支的同一文件的不同区域做的修改, 也和上述流程一样
+* 不同的人对同一分支的同一文件的同一区域做的修改,A修改提交了并push,而B修改了提交的时候就会有冲突,这时需要先pull,然后对冲突的文件进行修改(A和B协商解决冲突),然后commit,再通过push推送到远端
+* 不同的人对同一分支的同一文件做修改, A修改了文件名和内容然后commit并push,B修改了文件内容commit此时push会报错误,需要先pull,git会智能解决文件名的冲突, 然后就可以再次commit并push
+* 多人协作环境下修改同一个文件的文件名, git不会解决文件名冲突, 需要协商决定使用哪一个文件名, 然后merge/commit/push
+
+## 6 团队协作中git使用的规范
+
+* 禁止使用 git push -f(会强制让远程库和本地库一致而不解决任何冲突,很多修改会被丢弃), 同时可以在仓库设置里面禁用git push -f
+* 禁止向集成分支执行变更历史的操作,只有在当前commit的基础上进行修改的操作
+
+## 7 github成功的要素
+
+![](E:\share\workspace\git\notes\github成功的要素.png)
+
+## 8 github的核心功能
+
+
+
+## 9 如何在github上淘到想要的项目
+
+github高级搜索功能
+
+## 10 如何在github上建立个人博客
+
+folk github上的项目jeklly-now到自己的账户下, 然后根据要求修改配置和编辑md
+
+## 11 gitlab的团队化操作
+
+
+
 
 
